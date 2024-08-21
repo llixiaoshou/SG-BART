@@ -1,0 +1,193 @@
+2022-05-18 17:33:02,204 [INFO :__main__] My PID is 7664
+2022-05-18 17:33:02,204 [INFO :__main__] PyTorch version: 1.4.0
+2022-05-18 17:33:02,204 [INFO :__main__] Namespace(accum_count=[1], alpha=0.1, answer=False, attn_dropout=0.1, batch_size=32, beam_size=5, brnn=True, checkpoint='', copy=True, coverage=True, coverage_weight=0.4, cuda_seed=-1, curriculum=0, d_dec_model=512, d_feat_vec=32, d_graph_enc_model=256, d_inner=2048, d_k=64, d_seq_enc_model=512, d_v=64, d_word_vec=300, dec_feature=0, dec_rnn='gru', decay_bad_cnt=5, decay_method='', decay_steps=500, defined_slf_attn_mask='', dropout=0.5, enc_rnn='gru', epoch=100, eval_batch_size=16, extra_shuffle=True, feature=False, gpus=[0], graph_data='../dataset/preprocessed-data/preprcessed_graph_data.pt', input_feed=1, layer_attn=False, learning_rate=0.00025, learning_rate_decay=0.75, log_home='onqg/logs', log_interval=100, logfile_dev='onqg/logs/valid_classifier', logfile_train='onqg/logs/train_classifier', max_grad_norm=5.0, max_token_src_len=200, max_token_tgt_len=50, max_weight_value=20.0, maxout_pool_size=2, n_best=1, n_dec_layer=1, n_graph_enc_layer=3, n_head=8, n_seq_enc_layer=1, n_warmup_steps=10000, node_feature=True, optim='adam', pre_trained_vocab=True, pretrained='', proj_share_weight=False, save_mode='best', save_model='../src/train.py/classifier', seed=-1, sequence_data='../dataset/preprocessed-data/preprcessed_sequence_data.pt', slf_attn=False, sparse=0, start_decay_steps=5000, train_dataset='../dataset/Datasets/train_dataset.pt', training_mode='classify', translate_ppl=15.0, translate_steps=2500, valid_dataset='../dataset/Datasets/valid_dataset.pt', valid_steps=500)
+2022-05-18 17:33:02,326 [INFO :__main__] My seed is 440480534662600
+2022-05-18 17:33:02,327 [INFO :__main__] My cuda seed is 205777525591052
+2022-05-18 17:33:02,327 [INFO :__main__] Loading sequential data ......
+2022-05-18 17:33:10,547 [INFO :__main__] Loading pre-trained vocabulary ......
+2022-05-18 17:33:10,547 [INFO :__main__] Loading Dataset objects ......
+2022-05-18 17:34:55,037 [INFO :__main__] Preparing vocabularies ......
+2022-05-18 17:34:55,037 [INFO :__main__] Loading structural data ......
+2022-05-18 17:36:43,059 [INFO :__main__]  * vocabulary size. source = 50002; target = 35848
+2022-05-18 17:36:43,059 [INFO :__main__]  * number of training batches. 2741
+2022-05-18 17:36:43,060 [INFO :__main__]  * maximum batch size. 32
+2022-05-18 17:55:42,526 [INFO :__main__]  * Number of parameters to learn = 57741719
+2022-05-18 17:55:42,528 [INFO :__main__] UnifiedModel(
+  (seq_encoder): RNNEncoder(
+    (word_emb): Embedding(50002, 300, padding_idx=0)
+    (rnn): GRU(300, 256, batch_first=True, dropout=0.5, bidirectional=True)
+  )
+  (encoder_transformer): EncoderTransformer(
+    (attn): ConcatAttention(
+      (linear_pre): Linear(in_features=512, out_features=64, bias=True)
+      (linear_q): Linear(in_features=512, out_features=64, bias=False)
+      (linear_v): Linear(in_features=64, out_features=1, bias=False)
+      (sftmax): Softmax(dim=1)
+      (tanh): Tanh()
+    )
+  )
+  (graph_encoder): GraphEncoder(
+    (feat_embs): ModuleList(
+      (0): Embedding(4, 32, padding_idx=0)
+      (1): Embedding(50, 32, padding_idx=0)
+    )
+    (feature_transform): Linear(in_features=320, out_features=256, bias=True)
+    (layer_stack): ModuleList(
+      (0): GraphEncoderLayer(
+        (edge_in_list): ModuleList(
+          (0): Linear(in_features=256, out_features=256, bias=False)
+          (1): Linear(in_features=256, out_features=256, bias=False)
+          (2): Linear(in_features=256, out_features=256, bias=False)
+        )
+        (edge_out_list): ModuleList(
+          (0): Linear(in_features=256, out_features=256, bias=False)
+          (1): Linear(in_features=256, out_features=256, bias=False)
+          (2): Linear(in_features=256, out_features=256, bias=False)
+        )
+        (graph_in_attention): GraphAttention(
+          (dropout): Dropout(p=0.1, inplace=False)
+          (attention): Linear(in_features=512, out_features=1, bias=True)
+          (leaky_relu): LeakyReLU(negative_slope=0.1)
+        )
+        (graph_out_attention): GraphAttention(
+          (dropout): Dropout(p=0.1, inplace=False)
+          (attention): Linear(in_features=512, out_features=1, bias=True)
+          (leaky_relu): LeakyReLU(negative_slope=0.1)
+        )
+        (output_gate): Propagator(
+          (reset_gate): Sequential(
+            (0): Linear(in_features=768, out_features=256, bias=True)
+            (1): Sigmoid()
+            (2): Dropout(p=0.5, inplace=False)
+          )
+          (update_gate): Sequential(
+            (0): Linear(in_features=768, out_features=256, bias=True)
+            (1): Sigmoid()
+            (2): Dropout(p=0.5, inplace=False)
+          )
+          (transform): Sequential(
+            (0): Linear(in_features=768, out_features=256, bias=True)
+            (1): Tanh()
+          )
+        )
+      )
+      (1): GraphEncoderLayer(
+        (edge_in_list): ModuleList(
+          (0): Linear(in_features=256, out_features=256, bias=False)
+          (1): Linear(in_features=256, out_features=256, bias=False)
+          (2): Linear(in_features=256, out_features=256, bias=False)
+        )
+        (edge_out_list): ModuleList(
+          (0): Linear(in_features=256, out_features=256, bias=False)
+          (1): Linear(in_features=256, out_features=256, bias=False)
+          (2): Linear(in_features=256, out_features=256, bias=False)
+        )
+        (graph_in_attention): GraphAttention(
+          (dropout): Dropout(p=0.1, inplace=False)
+          (attention): Linear(in_features=512, out_features=1, bias=True)
+          (leaky_relu): LeakyReLU(negative_slope=0.1)
+        )
+        (graph_out_attention): GraphAttention(
+          (dropout): Dropout(p=0.1, inplace=False)
+          (attention): Linear(in_features=512, out_features=1, bias=True)
+          (leaky_relu): LeakyReLU(negative_slope=0.1)
+        )
+        (output_gate): Propagator(
+          (reset_gate): Sequential(
+            (0): Linear(in_features=768, out_features=256, bias=True)
+            (1): Sigmoid()
+            (2): Dropout(p=0.5, inplace=False)
+          )
+          (update_gate): Sequential(
+            (0): Linear(in_features=768, out_features=256, bias=True)
+            (1): Sigmoid()
+            (2): Dropout(p=0.5, inplace=False)
+          )
+          (transform): Sequential(
+            (0): Linear(in_features=768, out_features=256, bias=True)
+            (1): Tanh()
+          )
+        )
+      )
+      (2): GraphEncoderLayer(
+        (edge_in_list): ModuleList(
+          (0): Linear(in_features=256, out_features=256, bias=False)
+          (1): Linear(in_features=256, out_features=256, bias=False)
+          (2): Linear(in_features=256, out_features=256, bias=False)
+        )
+        (edge_out_list): ModuleList(
+          (0): Linear(in_features=256, out_features=256, bias=False)
+          (1): Linear(in_features=256, out_features=256, bias=False)
+          (2): Linear(in_features=256, out_features=256, bias=False)
+        )
+        (graph_in_attention): GraphAttention(
+          (dropout): Dropout(p=0.1, inplace=False)
+          (attention): Linear(in_features=512, out_features=1, bias=True)
+          (leaky_relu): LeakyReLU(negative_slope=0.1)
+        )
+        (graph_out_attention): GraphAttention(
+          (dropout): Dropout(p=0.1, inplace=False)
+          (attention): Linear(in_features=512, out_features=1, bias=True)
+          (leaky_relu): LeakyReLU(negative_slope=0.1)
+        )
+        (output_gate): Propagator(
+          (reset_gate): Sequential(
+            (0): Linear(in_features=768, out_features=256, bias=True)
+            (1): Sigmoid()
+            (2): Dropout(p=0.5, inplace=False)
+          )
+          (update_gate): Sequential(
+            (0): Linear(in_features=768, out_features=256, bias=True)
+            (1): Sigmoid()
+            (2): Dropout(p=0.5, inplace=False)
+          )
+          (transform): Sequential(
+            (0): Linear(in_features=768, out_features=256, bias=True)
+            (1): Tanh()
+          )
+        )
+      )
+    )
+    (gate): Linear(in_features=512, out_features=256, bias=False)
+    (activate): Sequential(
+      (0): Linear(in_features=512, out_features=256, bias=False)
+      (1): Tanh()
+    )
+  )
+  (decoder_transformer): DecoderTransformer()
+  (decoder): RNNDecoder(
+    (ans_emb): Embedding(50002, 300, padding_idx=0)
+    (decInit): DecInit(
+      (initer): Linear(in_features=512, out_features=512, bias=True)
+      (tanh): Tanh()
+    )
+    (word_emb): Embedding(35848, 300, padding_idx=0)
+    (rnn): StackedRNN(
+      (layers): ModuleList(
+        (0): GRUCell(1068, 512)
+      )
+    )
+    (attn): ConcatAttention(
+      (linear_pre): Linear(in_features=768, out_features=64, bias=True)
+      (linear_q): Linear(in_features=512, out_features=64, bias=False)
+      (linear_v): Linear(in_features=64, out_features=1, bias=False)
+      (sftmax): Softmax(dim=1)
+      (tanh): Tanh()
+      (linear_cov): Linear(in_features=1, out_features=64, bias=False)
+    )
+    (readout): Linear(in_features=1580, out_features=512, bias=True)
+    (maxout): MaxOut()
+    (copy_switch): Linear(in_features=1280, out_features=1, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+  (generator): Linear(in_features=256, out_features=35848, bias=False)
+  (classifier): Sequential(
+    (0): Linear(in_features=256, out_features=1, bias=False)
+    (1): Sigmoid()
+  )
+)
+2022-05-18 17:55:42,530 [INFO :__main__] 
+2022-05-18 17:55:42,530 [INFO :__main__]  *  [ Epoch 0 ]:   
+2022-05-18 17:55:42,531 [INFO :__main__] Shuffling...
+2022-05-18 18:14:58,642 [INFO :__main__]   +  Training accuracy: 75.678 %, loss: 0.00065
+2022-05-18 18:14:58,642 [INFO :__main__]   +  Validation accuracy: 78.129 %, loss: 0.00058
